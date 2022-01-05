@@ -2,4 +2,119 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font: 'Robot', sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 1512px;
+  height: 71px;
+
+  background-color: #7047eb;
+
+  .minhaloja {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-left: 34px;
+  }
+
+  .search {
+    width: 458px;
+    height: 35px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border-radius: 15px;
+    border: solid, 2px, #ffffff;
+
+    background-color: #ffffff;
+
+    .search-inp {
+      width: 345px;
+      height: 35px;
+      border-radius: 15px;
+      border: none;
+
+      outline: none;
+      padding-left: 19px;
+
+      font-weight: 500;
+      font-style: italic;
+      font-size: 16px;
+
+      color: #898989;
+    }
+
+    .clean-btn {
+      border: solid 2px #ffffff;
+      margin: 5px;
+
+      cursor: pointer;
+    }
+
+    .search-btn {
+      width: 83px;
+      height: 35px;
+
+      border-radius: 15px;
+      border: solid 2px #ffffff;
+      box-sizing: border-box;
+
+      background-color: #7047eb;
+      color: #ffffff;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+  }
+
+  .car {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    width: 172px;
+    height: 53px;
+
+    margin-right: 63px;
+
+    border-radius: 15px;
+    border: solid 2px #ffffff;
+    box-sizing: border-box;
+
+    background-color: #7047eb;
+    cursor: pointer;
+
+    .img-car {
+      margin-left: 18.5px;
+      margin-right: 12px;
+    }
+
+    .text-car {
+      display: flex;
+      flex-direction: column;
+
+      color: #ffffff;
+
+      .title-car {
+        font-weight: 400;
+        font-size: 18px;
+
+        margin-bottom: 4px;
+      }
+
+      .number-products {
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+  }
 }
