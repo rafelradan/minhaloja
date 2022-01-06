@@ -58,6 +58,9 @@ function App() {
       </header>
 
       <section className="body">
+        <div className="my-cart">
+          <MyCart />
+        </div>
         <div className="contents">
           {products.map(indProduct => {
             return (
