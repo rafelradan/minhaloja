@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import './globalStyle.scss'
 
 import MyCart from './componets/modalCart/MyCart'
@@ -14,21 +16,39 @@ function App() {
       id: '01',
       objTitle: 'MOUSE SEM FIO BLUETOOTH',
       objImg: ImgMouse,
-      objValue: 'R$ 85,00'
+      objValue: 85.0
     },
     {
       id: '02',
       objTitle: 'TECLADO SEM FIO BLUETOOTH',
       objImg: ImgKeyboard,
-      objValue: 'R$ 150,00'
+      objValue: 150.0
     },
     {
       id: '03',
       objTitle: 'FONE SEM FIO BLUETOOTH',
       objImg: ImgHeadset,
-      objValue: 'R$ 97,50'
+      objValue: 97.5
     }
   ]
+
+  const [product, setProduct] = useState()
+  //const [vtotal, setVtotal] = useState(0)
+
+  function addProductInCart(id, title, value) {
+    const productsFromData = {
+      idProduct: id,
+      titleProduct: title,
+      valueProduct: value
+    }
+
+    const myList = localStorage.getItem('storageProducts')
+    const savedProducts = JSON.parse(myList) || []
+
+    savedProducts.push(productsFromData)
+    localStorage.setItem('storageProducts', JSON.stringify(savedProducts))
+    console.log('Prosuto adcionado com sucesso!')
+  }
 
   return (
     <div className="App">
@@ -74,8 +94,19 @@ function App() {
                 </div>
 
                 <div className="bottom-card">
-                  <span>{indProduct.objValue}</span>
-                  <button className="btn-card">ADICIONAR AO CARRINHO</button>
+                  <span>R$ {indProduct.objValue}</span>
+                  <button
+                    className="btn-card"
+                    onClick={() =>
+                      addProductInCart(
+                        indProduct.id,
+                        indProduct.objTitle,
+                        indProduct.objValue
+                      )
+                    }
+                  >
+                    ADICIONAR AO CARRINHO
+                  </button>
                 </div>
               </div>
             )

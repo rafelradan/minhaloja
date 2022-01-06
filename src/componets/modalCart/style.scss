@@ -25,11 +25,14 @@
     margin-right: 16px;
 
     height: 257px;
+    border: solid 1px red;
 
     .prod {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      margin-bottom: 5px;
     }
 
     .prod-name {

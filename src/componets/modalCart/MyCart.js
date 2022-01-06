@@ -3,15 +3,31 @@ import React from 'react'
 import './style.scss'
 
 export default function MyCart() {
+  const readProducts = localStorage.getItem('storageProducts')
+  const result = JSON.parse(readProducts) || []
+
   return (
     <div className="modal-cart">
       <h4 className="title-cart">Meu Carrinho</h4>
+      <button>Carregar dados</button>
 
       <div className="products-in-cart">
-        <div className="prod">
-          <span className="prod-name">MOUSE SEM FIO BLUETOTH</span>
-          <span className="prod-value">R$ 85,00</span>
-          <button className="prod-btn-remove">x</button>
+        <div className="content">
+          {result.map(productData => {
+            return (
+              <section className="prod">
+                <span key={productData.idProduct} className="prod-name">
+                  {productData.titleProduct}
+                </span>
+
+                <span className="prod-value">
+                  R$ {productData.valueProduct}
+                </span>
+
+                <button className="prod-btn-remove">x</button>
+              </section>
+            )
+          })}
         </div>
       </div>
 
