@@ -9,7 +9,6 @@ export default function MyCart() {
   return (
     <div className="modal-cart">
       <h4 className="title-cart">Meu Carrinho</h4>
-      <button>Carregar dados</button>
 
       <div className="products-in-cart">
         <div className="content">

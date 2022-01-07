@@ -32,11 +32,20 @@ function App() {
     }
   ]
 
-  const [product, setProduct] = useState()
-  //const [vtotal, setVtotal] = useState(0)
+  const [product, setProduct] = useState({
+    idProduct: 0,
+    titleProduct: '',
+    valueProduct: 0
+  })
 
-  function addProductInCart(id, title, value) {
-    const productsFromData = {
+  function addInCart(id, title, value) {
+    setProduct({
+      idProduct: id,
+      titleProduct: title,
+      valueProduct: value
+    })
+
+    let prodData = {
       idProduct: id,
       titleProduct: title,
       valueProduct: value
@@ -45,9 +54,8 @@ function App() {
     const myList = localStorage.getItem('storageProducts')
     const savedProducts = JSON.parse(myList) || []
 
-    savedProducts.push(productsFromData)
+    savedProducts.push(prodData)
     localStorage.setItem('storageProducts', JSON.stringify(savedProducts))
-    console.log('Prosuto adcionado com sucesso!')
   }
 
   return (
@@ -96,9 +104,10 @@ function App() {
                 <div className="bottom-card">
                   <span>R$ {indProduct.objValue}</span>
                   <button
+                    id="btnAddInCart"
                     className="btn-card"
                     onClick={() =>
-                      addProductInCart(
+                      addInCart(
                         indProduct.id,
                         indProduct.objTitle,
                         indProduct.objValue
