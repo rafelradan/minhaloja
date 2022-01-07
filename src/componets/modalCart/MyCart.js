@@ -6,6 +6,15 @@ export default function MyCart() {
   const readProducts = localStorage.getItem('storageProducts')
   const result = JSON.parse(readProducts) || []
 
+  function dellProduct(id) {
+    var restProducts = result.filter(prod => {
+      return prod.idProduct !== id
+    })
+
+    console.log(restProducts)
+    localStorage.setItem('storageProducts', JSON.stringify(restProducts))
+  }
+
   return (
     <div className="modal-cart">
       <h4 className="title-cart">Meu Carrinho</h4>
@@ -23,7 +32,12 @@ export default function MyCart() {
                   R$ {productData.valueProduct}
                 </span>
 
-                <button className="prod-btn-remove">x</button>
+                <button
+                  className="prod-btn-remove"
+                  onClick={() => dellProduct(productData.idProduct)}
+                >
+                  x
+                </button>
               </section>
             )
           })}
