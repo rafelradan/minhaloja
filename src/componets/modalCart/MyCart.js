@@ -1,18 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react/cjs/react.development'
 
 import './style.scss'
 
 export default function MyCart() {
+  const [prodInCart, setProdInCart] = useState([])
+
   const readProducts = localStorage.getItem('storageProducts')
   const result = JSON.parse(readProducts) || []
+
+  useEffect(() => {
+    setProdInCart(result)
+  }, [])
 
   function dellProduct(id) {
     var restProducts = result.filter(prod => {
       return prod.idProduct !== id
     })
 
-    console.log(restProducts)
     localStorage.setItem('storageProducts', JSON.stringify(restProducts))
+
+    setProdInCart(restProducts)
   }
 
   return (
