@@ -14,13 +14,14 @@ export default function MyCart() {
   }, [])
 
   function dellProduct(id) {
-    var restProducts = result.filter(prod => {
-      return prod.idProduct !== id
+    var restProducts = result.filter(prodInCart => {
+      return prodInCart.idProduct !== id
     })
 
     localStorage.setItem('storageProducts', JSON.stringify(restProducts))
 
     setProdInCart(restProducts)
+    console.log(prodInCart)
   }
 
   return (

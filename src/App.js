@@ -56,6 +56,8 @@ function App() {
 
     savedProducts.push(prodData)
     localStorage.setItem('storageProducts', JSON.stringify(savedProducts))
+
+    console.log(product)
   }
 
   return (
