@@ -22,7 +22,6 @@ export default function MyCart() {
       valTotal = valTotal + productV.valueProduct
     })
 
-    console.log(valTotal)
     setValTotalProd(valTotal)
   }
 
@@ -35,6 +34,10 @@ export default function MyCart() {
 
     setProdInCart(restProducts)
     console.log(prodInCart)
+    document.getElementById(id).removeAttribute('disabled')
+    document.getElementById(id).innerText = 'ADICIONAR AO CARRINHO'
+    document.getElementById(id).style.background = '#7047EB'
+    document.getElementById(id).style.cursor = 'pointer'
   }
 
   return (

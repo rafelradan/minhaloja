@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './globalStyle.scss'
 
@@ -32,6 +32,7 @@ function App() {
     }
   ]
 
+  const [textBtn, setTextBtn] = useState('ADICIONAR AO CARRINHO')
   const [product, setProduct] = useState({
     idProduct: 0,
     titleProduct: '',
@@ -58,6 +59,12 @@ function App() {
     localStorage.setItem('storageProducts', JSON.stringify(savedProducts))
 
     console.log(product)
+    setTextBtn('ADICIONADO')
+
+    document.getElementById(id).innerText = 'ADICIONADO'
+    document.getElementById(id).style.background = '#B4B1BE'
+    document.getElementById(id).setAttribute('disabled', 'disabled')
+    document.getElementById(id).style.cursor = 'not-allowed'
   }
 
   return (
@@ -106,7 +113,7 @@ function App() {
                 <div className="bottom-card">
                   <span>R$ {indProduct.objValue}</span>
                   <button
-                    id="btnAddInCart"
+                    id={indProduct.id}
                     className="btn-card"
                     onClick={() =>
                       addInCart(
