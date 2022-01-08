@@ -32,12 +32,18 @@ function App() {
     }
   ]
 
-  const [textBtn, setTextBtn] = useState('ADICIONAR AO CARRINHO')
+  const [productsList, setProductsList] = useState([{}])
+  const [filterProd, setFilterProd] = useState('')
+
   const [product, setProduct] = useState({
     idProduct: 0,
     titleProduct: '',
     valueProduct: 0
   })
+
+  useEffect(() => {
+    setProductsList(products)
+  }, [])
 
   function addInCart(id, title, value) {
     setProduct({
@@ -59,12 +65,18 @@ function App() {
     localStorage.setItem('storageProducts', JSON.stringify(savedProducts))
 
     console.log(product)
-    setTextBtn('ADICIONADO')
 
     document.getElementById(id).innerText = 'ADICIONADO'
     document.getElementById(id).style.background = '#B4B1BE'
     document.getElementById(id).setAttribute('disabled', 'disabled')
     document.getElementById(id).style.cursor = 'not-allowed'
+  }
+
+  function filterProducts() {
+    const result = products.filter(prod => {
+      return prod.objTitle.includes(filterProd.toUpperCase())
+    })
+    setProductsList(result)
   }
 
   return (
@@ -75,11 +87,18 @@ function App() {
         </div>
 
         <div className="search">
-          <input className="search-inp" />
+          <input
+            className="search-inp"
+            onChange={e => setFilterProd(e.target.value)}
+            value={filterProd}
+          />
+
           <button className="clean-btn">
             <img src={ImgClean} alt="clean" />
           </button>
-          <button className="search-btn">Filtrar</button>
+          <button className="search-btn" onClick={filterProducts}>
+            Filtrar
+          </button>
         </div>
 
         <div className="car">
@@ -99,7 +118,7 @@ function App() {
           <MyCart />
         </div>
         <div className="contents">
-          {products.map(indProduct => {
+          {productsList.map(indProduct => {
             return (
               <div key={indProduct.id} className="product-card">
                 <div className="title-card">
