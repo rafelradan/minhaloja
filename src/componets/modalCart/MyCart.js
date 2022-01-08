@@ -5,13 +5,26 @@ import './style.scss'
 
 export default function MyCart() {
   const [prodInCart, setProdInCart] = useState([])
+  const [valTotalProd, setValTotalProd] = useState(0)
 
   const readProducts = localStorage.getItem('storageProducts')
   const result = JSON.parse(readProducts) || []
 
   useEffect(() => {
     setProdInCart(result)
-  }, [])
+    sumValues()
+  }, [readProducts])
+
+  let valTotal = 0
+
+  function sumValues() {
+    result.forEach(productV => {
+      valTotal = valTotal + productV.valueProduct
+    })
+
+    console.log(valTotal)
+    setValTotalProd(valTotal)
+  }
 
   function dellProduct(id) {
     var restProducts = result.filter(prodInCart => {
@@ -26,7 +39,9 @@ export default function MyCart() {
 
   return (
     <div className="modal-cart">
-      <h4 className="title-cart">Meu Carrinho</h4>
+      <h4 className="title-cart" onClick={sumValues}>
+        Meu Carrinho
+      </h4>
 
       <div className="products-in-cart">
         <div className="content">
@@ -55,7 +70,7 @@ export default function MyCart() {
 
       <div className="total">
         <span className="txt-total">TOTAL:</span>
-        <span className="txt-sum">R$ 85,00</span>
+        <span className="txt-sum">R$ {valTotalProd}</span>
       </div>
     </div>
   )
