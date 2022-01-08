@@ -79,6 +79,11 @@ function App() {
     setProductsList(result)
   }
 
+  function cleanFilter() {
+    setFilterProd('')
+    setProductsList(products)
+  }
+
   return (
     <div className="App">
       <header className="header">
@@ -93,7 +98,7 @@ function App() {
             value={filterProd}
           />
 
-          <button className="clean-btn">
+          <button className="clean-btn" onClick={cleanFilter}>
             <img src={ImgClean} alt="clean" />
           </button>
           <button className="search-btn" onClick={filterProducts}>
