@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import CartProvider from './contexts/contextCart'
 
 import './globalStyle.scss'
 
@@ -34,6 +35,9 @@ function App() {
 
   const [productsList, setProductsList] = useState([{}])
   const [filterProd, setFilterProd] = useState('')
+  const [cartNumber, setCartNumber] = useState(0)
+
+  const myProducts = localStorage.getItem('storageProducts')
 
   const [product, setProduct] = useState({
     idProduct: 0,
@@ -43,7 +47,19 @@ function App() {
 
   useEffect(() => {
     setProductsList(products)
-  }, [])
+
+    const myProducts = localStorage.getItem('storageProducts')
+    const savedProducts = JSON.parse(myProducts) || [].length
+    setCartNumber(savedProducts.length)
+  }, [products])
+
+  function cartNumberProd() {
+    const myProducts = localStorage.getItem('storageProducts')
+    const savedProducts = JSON.parse(myProducts) || [].length
+
+    /* console.log(savedProducts.length) */
+    setCartNumber(savedProducts.length)
+  }
 
   function addInCart(id, title, value) {
     setProduct({
@@ -64,12 +80,14 @@ function App() {
     savedProducts.push(prodData)
     localStorage.setItem('storageProducts', JSON.stringify(savedProducts))
 
-    console.log(product)
+    /*  console.log(product) */
 
     document.getElementById(id).innerText = 'ADICIONADO'
     document.getElementById(id).style.background = '#B4B1BE'
     document.getElementById(id).setAttribute('disabled', 'disabled')
     document.getElementById(id).style.cursor = 'not-allowed'
+
+    cartNumberProd()
   }
 
   function filterProducts() {
@@ -85,77 +103,82 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="header">
-        <div className="minhaloja">
-          <span>Minha Loja</span>
-        </div>
-
-        <div className="search">
-          <input
-            className="search-inp"
-            onChange={e => setFilterProd(e.target.value)}
-            value={filterProd}
-          />
-
-          <button className="clean-btn" onClick={cleanFilter}>
-            <img src={ImgClean} alt="clean" />
-          </button>
-          <button className="search-btn" onClick={filterProducts}>
-            Filtrar
-          </button>
-        </div>
-
-        <div className="car">
-          <div className="img-car">
-            <img src={ImgCar} alt="car" />
+    <CartProvider>
+      <div className="App">
+        <header className="header">
+          <div className="minhaloja">
+            <span>Minha Loja</span>
           </div>
 
-          <div className="text-car">
-            <span className="title-car">Carrinho</span>
-            <span className="number-products">3 produtos</span>
+          <div className="search">
+            <input
+              className="search-inp"
+              onChange={e => setFilterProd(e.target.value)}
+              value={filterProd}
+            />
+
+            <button className="clean-btn" onClick={cleanFilter}>
+              <img src={ImgClean} alt="clean" />
+            </button>
+            <button className="search-btn" onClick={filterProducts}>
+              Filtrar
+            </button>
           </div>
-        </div>
-      </header>
 
-      <section className="body">
-        <div className="my-cart">
-          <MyCart />
-        </div>
-        <div className="contents">
-          {productsList.map(indProduct => {
-            return (
-              <div key={indProduct.id} className="product-card">
-                <div className="title-card">
-                  <h5>{indProduct.objTitle}</h5>
-                </div>
+          <div className="car">
+            <div className="img-car">
+              <img src={ImgCar} alt="car" />
+            </div>
 
-                <div className="img-card">
-                  <img src={indProduct.objImg} alt="mouse" />
-                </div>
+            <div className="text-car">
+              <span className="title-car">Carrinho</span>
+              <span id="cartNumber" className="number-products">
+                {cartNumber} produtos
+              </span>
+            </div>
+          </div>
+        </header>
 
-                <div className="bottom-card">
-                  <span>R$ {indProduct.objValue}</span>
-                  <button
-                    id={indProduct.id}
-                    className="btn-card"
-                    onClick={() =>
-                      addInCart(
-                        indProduct.id,
-                        indProduct.objTitle,
-                        indProduct.objValue
-                      )
-                    }
-                  >
-                    ADICIONAR AO CARRINHO
-                  </button>
+        <section className="body">
+          <div className="my-cart">
+            <MyCart cartNumber={cartNumber} setCartNumber={setCartNumber} />
+          </div>
+          <div className="contents">
+            {productsList.map(indProduct => {
+              return (
+                <div key={indProduct.id} className="product-card">
+                  <div className="title-card">
+                    <h5>{indProduct.objTitle}</h5>
+                  </div>
+
+                  <div className="img-card">
+                    <img src={indProduct.objImg} alt="mouse" />
+                  </div>
+
+                  <div className="bottom-card">
+                    <span>R$ {indProduct.objValue}</span>
+
+                    <button
+                      id={indProduct.id}
+                      className="btn-card"
+                      onClick={() =>
+                        addInCart(
+                          indProduct.id,
+                          indProduct.objTitle,
+                          indProduct.objValue
+                        )
+                      }
+                    >
+                      ADICIONAR AO CARRINHO
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
-      </section>
-    </div>
+              )
+            })}
+          </div>
+        </section>
+      </div>
+    </CartProvider>
   )
 }
 
