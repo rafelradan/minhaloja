@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import CartProvider from './contexts/contextCart'
 
 import './globalStyle.scss'
@@ -36,14 +36,7 @@ function App() {
   const [productsList, setProductsList] = useState([{}])
   const [filterProd, setFilterProd] = useState('')
   const [cartNumber, setCartNumber] = useState(0)
-
-  const myProducts = localStorage.getItem('storageProducts')
-
-  const [product, setProduct] = useState({
-    idProduct: 0,
-    titleProduct: '',
-    valueProduct: 0
-  })
+  const [showCart, setShowCart] = useState(false)
 
   useEffect(() => {
     setProductsList(products)
@@ -51,23 +44,20 @@ function App() {
     const myProducts = localStorage.getItem('storageProducts')
     const savedProducts = JSON.parse(myProducts) || [].length
     setCartNumber(savedProducts.length)
-  }, [products])
+  }, [])
+
+  function toggleShowCart() {
+    setShowCart(!showCart)
+  }
 
   function cartNumberProd() {
     const myProducts = localStorage.getItem('storageProducts')
     const savedProducts = JSON.parse(myProducts) || [].length
 
-    /* console.log(savedProducts.length) */
     setCartNumber(savedProducts.length)
   }
 
   function addInCart(id, title, value) {
-    setProduct({
-      idProduct: id,
-      titleProduct: title,
-      valueProduct: value
-    })
-
     let prodData = {
       idProduct: id,
       titleProduct: title,
@@ -125,7 +115,7 @@ function App() {
             </button>
           </div>
 
-          <div className="car">
+          <div className="car" onClick={toggleShowCart}>
             <div className="img-car">
               <img src={ImgCar} alt="car" />
             </div>
@@ -141,7 +131,11 @@ function App() {
 
         <section className="body">
           <div className="my-cart">
-            <MyCart cartNumber={cartNumber} setCartNumber={setCartNumber} />
+            <MyCart
+              cartNumber={cartNumber}
+              setCartNumber={setCartNumber}
+              showCart={showCart}
+            />
           </div>
           <div className="contents">
             {productsList.map(indProduct => {

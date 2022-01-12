@@ -1,21 +1,16 @@
-import React, { useEffect, useContext } from 'react'
-import { useState } from 'react/cjs/react.development'
+import React, { useEffect, useState } from 'react'
 
 import './style.scss'
-import { CartContext } from '../../contexts/contextCart'
 
-export default function MyCart() {
-  const { carttNumber, setCarttNumber } = useContext(CartContext)
-  const [prodInCart, setProdInCart] = useState([])
+export default function MyCart({ showCart, cartNumber, setCartNumber }) {
   const [valTotalProd, setValTotalProd] = useState(0)
 
   const readProducts = localStorage.getItem('storageProducts')
   const result = JSON.parse(readProducts) || []
 
   useEffect(() => {
-    setProdInCart(result)
     sumValues()
-  }, [readProducts])
+  })
 
   let valTotal = 0
 
@@ -34,8 +29,7 @@ export default function MyCart() {
 
     localStorage.setItem('storageProducts', JSON.stringify(restProducts))
 
-    setProdInCart(restProducts)
-    setCarttNumber(restProducts.length)
+    setCartNumber(restProducts.length)
 
     document.getElementById(id).removeAttribute('disabled')
     document.getElementById(id).innerText = 'ADICIONAR AO CARRINHO'
@@ -43,13 +37,15 @@ export default function MyCart() {
     document.getElementById(id).style.cursor = 'pointer'
   }
 
+  if (!showCart) {
+    return null
+  }
+
   return (
     <div className="modal-cart">
       <h4 className="title-cart" onClick={sumValues}>
         Meu Carrinho
       </h4>
-      <hr />
-      <h5>{carttNumber}</h5>
 
       <div className="products-in-cart">
         <div className="content">
